@@ -1,0 +1,146 @@
+<div *ngIf="task_id !== null">
+  <div class="modalAux">
+    <button (click)="cancelUpdate()" data-bs-theme="dark" type="button" class="btn-close" aria-label="Close"
+      style="margin-left: 95%;"></button>
+    <form (ngSubmit)="updatedTask()" #updateForm="ngForm">
+      <h3 class="">Updated Task Form</h3>
+      <hr>
+      <div *ngIf="updatedErrorMessage" class="alert alert-danger" role="alert">
+        <i class="bi bi-exclamation-circle"></i>
+        {{ updatedErrorMessage }}
+      </div>
+
+      <div *ngIf="updatedSuccessMessage" class="alert alert-success" role="alert">
+        <i class="bi bi-emoji-laughing"></i>
+        {{updatedSuccessMessage}}
+      </div>
+      <div class="form-floating mb-3">
+        <input [(ngModel)]="_taskLoaded" name="updated_task" required type="text" class="form-control"
+          id="floatingInput" placeholder="name@example.com">
+        <label for="floatingInput">
+          <i class="bi bi-diagram-3"></i>
+          Task
+        </label>
+      </div>
+
+      <div class="mb-3">
+        <label for="form-control">
+          <i class="bi bi-bar-chart"></i>
+          Priority
+        </label>
+        <select class="form-select" [(ngModel)]="_priorityLoaded" name="updated_priority" required id="form-control">
+          <option value="Low" selected>Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+      </div>
+
+      <button type="submit" class="mb-3 btn btn-warning" [disabled]="!updateForm.valid">
+        <i class="bi bi-device-hdd"></i>
+        Update Task
+      </button>
+
+    </form>
+  </div>
+  <div class="overlay">
+  </div>
+</div>
+
+<div class="container-md">
+
+  <h3 class="">Task Form</h3>
+  <hr>
+  <div *ngIf="errorMessage" class="alert alert-danger" role="alert">
+    <i class="bi bi-exclamation-circle"></i>
+    {{ errorMessage }}
+  </div>
+
+  <div *ngIf="successMessage" class="alert alert-success" role="alert">
+    <i class="bi bi-emoji-laughing"></i>
+    {{successMessage}}
+  </div>
+  <form (ngSubmit)="saveTask()" #taskForm="ngForm">
+
+    <div class="form-floating mb-3">
+      <input [(ngModel)]="defaultTaskValue" name="task" required type="text" class="form-control" id="floatingInput"
+        placeholder="name@example.com">
+      <label for="floatingInput">
+        <i class="bi bi-clipboard"></i>
+        Task
+      </label>
+    </div>
+
+    <div class="mb-3">
+      <label for="form-control">
+        <i class="bi bi-bar-chart"></i>
+        Priority
+      </label>
+      <select class="form-control" id="form-control" [(ngModel)]="defaultPriorityValue" name="priority" required>
+        <option value="Low">Low</option>
+        <option value="Medium">Medium</option>
+        <option value="High">High</option>
+      </select>
+    </div>
+
+    <button type="submit" class="mb-3 btn btn-success" id="create-task-id" [disabled]="!taskForm.valid">
+      <i class="bi bi-clipboard"></i>
+      Create Task
+    </button>
+
+  </form>
+  <hr>
+
+  <!-- <div>
+    <img src="assets/images/no_task.png" alt="not tasks image" width="100%" height="100%">
+  </div> -->
+
+  <table class="table table-hover table-striped" style="border-radius: 20px;">
+    <thead class="table-dark text-center">
+      <tr>
+        <th scope="col">
+          <i class="bi bi-clipboard"></i>
+          Task
+        </th>
+        <th scope="col">
+          <i class="bi bi-bar-chart"></i>
+          Priority
+        </th>
+        <th scope="col">
+          <i class="bi bi-pencil-square"></i>
+          Update
+        </th>
+        <th scope="col">
+          <i class="bi bi-trash"></i>
+          Remove
+        </th>
+      </tr>
+    </thead>
+    <tbody class="table-dark">
+      <tr *ngFor="let taskData of loadedTasks">
+        <td>{{ taskData.task }}</td>
+        <td class="text-center">
+          <span *ngIf="taskData.priority === 'Low'" class="badge text-bg-success">
+            {{ taskData.priority }}
+          </span>
+          <span *ngIf="taskData.priority === 'Medium'" class="badge text-bg-warning">
+            {{ taskData.priority }}
+          </span>
+          <span *ngIf="taskData.priority === 'High'" class="badge text-bg-danger">
+            {{ taskData.priority }}
+          </span>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-primary" (click)="sendIdForUpdated(taskData.task_id)">
+            <i class="bi bi-pencil-square"></i>
+          </button>
+        </td>
+        <td class="text-center">
+          <button class="btn btn-danger" (click)="deleteTask(taskData.task_id)">
+            <i class="bi bi-trash"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+</div>
